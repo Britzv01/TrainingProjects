@@ -1,14 +1,14 @@
-
 import java.util.Scanner;
 
 public class BankingTest {
+    static Scanner scan = new Scanner(System.in);
     static double balance = 1000;
 
     static void checkBalance(){
         System.out.printf("Your balance is $%,.2f\n", balance);
     }
 
-    static void depositCash(Scanner scan){
+    static void depositCash(){
         System.out.print("Enter amount to deposit: ");
         double depositAmount = scan.nextDouble();
 
@@ -19,13 +19,12 @@ public class BankingTest {
             balance += depositAmount;
             checkBalance();
         }
-
     }
 
-    static void withdrawCash(Scanner scan){
+    static void withdrawCash(){
         System.out.print("Enter amount to withdraw: ");
         double withdrawnAmount = scan.nextDouble();
-        if (withdrawnAmount >= balance){
+        if (withdrawnAmount > balance){
             System.out.println("Insufficient Amount of Funds! Try Again!");
         }
         else if (withdrawnAmount <= 0){
@@ -38,12 +37,10 @@ public class BankingTest {
     }
 
     public static void main (String [] args) {
-        Scanner scan = new Scanner(System.in);
+        boolean isRunning = true;
 
-        char choice;
-        boolean status = true;
-
-        while (status) {
+        while (isRunning) {
+            char choice;
             System.out.println("\t\nBANKING PROGRAM");
             System.out.print("""
                     1. Show Balance
@@ -57,17 +54,15 @@ public class BankingTest {
 
             switch (choice) {
                 case '1' -> checkBalance();
-                case '2' -> depositCash(scan);
-                case '3' -> withdrawCash(scan);
+                case '2' -> depositCash();
+                case '3' -> withdrawCash();
                 case '4' -> {
                     System.out.print("Thank you! Come again!");
-                    status = false;
+                    isRunning = false;
                 }
                 default -> System.out.println("INVALID INPUT!");
             }
         }
-        
         scan.close();
-
     }
 }
