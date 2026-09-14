@@ -4,13 +4,13 @@ public class ContactBook {
     public static void main (String [] args){
         Scanner scan = new Scanner(System.in);
         String [] names = {"Onycah Negrido", "Ella", "Rhemier", "Mary", "Trisha"};
-        String targetName;
-        boolean isFound = false;
 
         System.out.println("Contact Book Search");
         System.out.println("-------------------");
 
         while(true) {
+            boolean isFound = false;
+            String targetName;
 
             System.out.print("Search for name: ");
             targetName = scan.nextLine().trim();
@@ -25,7 +25,7 @@ public class ContactBook {
                 }
             }
 
-            if (isFound == false) {
+            if (!isFound) {
                 System.out.println("Contact Not Found");
                 System.out.println("-------------------");
             }
