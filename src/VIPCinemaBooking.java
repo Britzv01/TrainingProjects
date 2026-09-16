@@ -1,8 +1,8 @@
 import java.util.Scanner;
 
 public class VIPCinemaBooking {
-    Scanner scan = new Scanner(System.in);
-    String [] cinemaSeats = new String[10];
+    private Scanner scan = new Scanner(System.in);
+    private String [] cinemaSeats = new String[10];
 
     public VIPCinemaBooking(){
         for (int k = 0; k < cinemaSeats.length; k++){
@@ -27,11 +27,13 @@ public class VIPCinemaBooking {
             if(seatNumber > cinemaSeats.length || seatNumber < 1){
                 System.out.println("Invalid Seat Number!");
                 System.out.println("---------------------");
+                continue;
             }
 
-            else if (!cinemaSeats[seatNumber].equals("Empty")){
+            else if (!cinemaSeats[seatNumber - 1].equals("Empty")){
                 System.out.println("Seat Taken! Choose Again!");
                 System.out.println("---------------------");
+                continue;
             }
 
             System.out.print("Enter Guest Name: ");
@@ -46,22 +48,39 @@ public class VIPCinemaBooking {
 
     void cancelBook() {
         while (true) {
+            int seatCounter = 0;
+
+            for (int j = 0; j < cinemaSeats.length; j++){
+                if (cinemaSeats[j].equals("Empty")){
+                    seatCounter++;
+                }
+            }
+
+            if (seatCounter == cinemaSeats.length) {
+                System.out.println("All Seats are Available! Cancellation is Unnecessary");
+                break;
+            }
+
             System.out.print("Enter Seat #[1-10]: ");
             int seatNumber = scan.nextInt();
+            scan.nextLine();
             System.out.println("---------------------");
 
             if (seatNumber > cinemaSeats.length || seatNumber < 1) {
                 System.out.println("Invalid Seat Number!");
                 System.out.println("---------------------");
+                continue;
+
             }
 
-            else if (!cinemaSeats[seatNumber].equals("Empty")) {
+            else if (cinemaSeats[seatNumber - 1].equals("Empty")) {
                 System.out.println("Seat Available! Cancellation is Unnecessary");
                 System.out.println("---------------------");
+                continue;
             }
 
+            System.out.printf("Cancel Booking Complete for %s!%n", cinemaSeats[seatNumber - 1]);
             cinemaSeats[seatNumber - 1] = "Empty";
-            System.out.println("Cancel Booking Complete!");
             break;
         }
     }
@@ -71,7 +90,7 @@ public class VIPCinemaBooking {
         int choice;
         boolean isRunning = true;
 
-        System.out.println("Cinema Booking System");
+        System.out.println("VIP Cinema Booking System");
         System.out.println("---------------------");
 
         while (isRunning) {
