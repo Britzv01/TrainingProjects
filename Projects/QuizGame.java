@@ -7,7 +7,7 @@ public class QuizGame {
 
     public QuizGame(){
         for (int m = 0; m < quizQuestions.length; m++){
-            finishedQuestions[m] = 5;
+            finishedQuestions[m] = -1;
         }
     }
     String [] quizQuestions = { "What is the capital city of Australia?",
@@ -26,7 +26,7 @@ public class QuizGame {
 
     char [] quizAnswers = {'C', 'B', 'A', 'B', 'B'};
 
-    void startGame() throws InterruptedException {
+    public void startGame() throws InterruptedException {
         int correctAnswerCounter = 0;
         int currentQuestion;
         Thread.sleep(1000);
@@ -58,7 +58,7 @@ public class QuizGame {
             finishedQuestions[i] = currentQuestion;
 
             //Outputs the Choices
-            for (int j = 0; j < quizChoices[i].length; j++) {
+            for (int j = 0; j < quizChoices[currentQuestion].length; j++) {
                 System.out.println(quizChoices[currentQuestion][j]);
             }
 
@@ -79,7 +79,7 @@ public class QuizGame {
         }
         //Displays the Final Score
         System.out.println("---------------------------");
-        System.out.printf("Final Score: %d / %d", correctAnswerCounter, quizQuestions.length);
+        System.out.printf("Final Score: %d / %d%n", correctAnswerCounter, quizQuestions.length);
     }
 
      static void main (String [] args) throws InterruptedException {
@@ -88,5 +88,7 @@ public class QuizGame {
         System.out.println("Welcome to Java Quiz Game!");
 
         app.startGame();
+
+        app.scan.close();
     }
 }
