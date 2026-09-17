@@ -4,6 +4,12 @@ import java.util.Scanner;
 public class QuizGame {
     Scanner scan = new Scanner(System.in);
     Random random = new Random();
+
+    public QuizGame(){
+        for (int m = 0; m < quizQuestions.length; m++){
+            finishedQuestions[m] = 5;
+        }
+    }
     String [] quizQuestions = { "What is the capital city of Australia?",
                                 "Which planet in our solar system is known as the \"Red Planet\"?",
                                 "In computer science, what does \"HTTP\" stand for?",
@@ -23,27 +29,30 @@ public class QuizGame {
     void startGame() throws InterruptedException {
         int correctAnswerCounter = 0;
         int currentQuestion;
+        Thread.sleep(1000);
 
         for (int i = 0; i < quizQuestions.length; i++) {
             //Handles the Randomizer
-            boolean questionFinished = false;
-
             while(true) {
+                boolean questionFinished = false;
+
                 currentQuestion = random.nextInt(0, quizQuestions.length);
 
                 for (int k = 0; k < quizQuestions.length; k++) {
                     if (currentQuestion == finishedQuestions[k]) {
                         questionFinished = true;
+                        break;
                     }
                 }
 
-                if (questionFinished == false){
-                    break;
+                if (questionFinished){
+                    continue;
                 }
+
+                break;
             }
 
             //Outputs the Question
-            Thread.sleep(1000);
             System.out.println("---------------------------");
             System.out.printf("%d. %s%n", (i + 1), quizQuestions[currentQuestion]);
             finishedQuestions[i] = currentQuestion;
@@ -53,11 +62,13 @@ public class QuizGame {
                 System.out.println(quizChoices[currentQuestion][j]);
             }
 
+            //Scans the Answer
             System.out.println("---------------------------");
             System.out.print("Guess: ");
             char guess = Character.toUpperCase(scan.next().charAt(0));
             System.out.println("---------------------------");
 
+            //Checks the Answer
             if (guess != quizAnswers[currentQuestion]){
                 System.out.println("Wrong Answer!");
                 continue;
@@ -66,12 +77,12 @@ public class QuizGame {
             System.out.println("Correct Answer!");
             correctAnswerCounter++;
         }
-
+        //Displays the Final Score
         System.out.println("---------------------------");
         System.out.printf("Final Score: %d / %d", correctAnswerCounter, quizQuestions.length);
     }
 
-    public static void main (String [] args) throws InterruptedException {
+     static void main (String [] args) throws InterruptedException {
         QuizGame app = new QuizGame();
 
         System.out.println("Welcome to Java Quiz Game!");
