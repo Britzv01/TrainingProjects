@@ -49,7 +49,7 @@ public class RockPaperScissors {
 
             if (replay.equals("NO")){
                 System.out.println("---------------------------");
-                System.out.println("Thank you! Try Again!");
+                System.out.println("Thank you! Try Again Sometime!");
                 break;
             }
         }
