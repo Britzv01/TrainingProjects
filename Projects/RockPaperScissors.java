@@ -12,18 +12,14 @@ public class RockPaperScissors {
         while(true) {
             String userGuess;
 
-            while(true) {
-                System.out.println("---------------------------");
-                System.out.println("[Rock/Paper/Scissor]");
-                System.out.print("Enter your move: ");
-                userGuess = scan.nextLine().toUpperCase();
+            System.out.println("---------------------------");
+            System.out.println("[Rock/Paper/Scissor]");
+            System.out.print("Enter your move: ");
+            userGuess = scan.nextLine().toUpperCase();
 
-                if (!userGuess.equals("ROCK") && !userGuess.equals("PAPER") && !userGuess.equals("SCISSORS")){
-                    System.out.println("INVALID CHOICE!");
-                    continue;
-                }
-
-                break;
+            if (!userGuess.equals("ROCK") && !userGuess.equals("PAPER") && !userGuess.equals("SCISSORS")){
+                System.out.println("INVALID CHOICE!");
+                continue;
             }
 
             int randomValue = random.nextInt(computerChoices.length);
@@ -35,7 +31,9 @@ public class RockPaperScissors {
                 System.out.println("Tie!");
             }
 
-            else if((userGuess.equals("ROCK") && computerChoice.equals("PAPER")) || (userGuess.equals("PAPER") && computerChoice.equals("SCISSORS")) || (userGuess.equals("SCISSORS") && computerChoice.equals("ROCK"))) {
+            else if((userGuess.equals("ROCK") && computerChoice.equals("PAPER")) ||
+                    (userGuess.equals("PAPER") && computerChoice.equals("SCISSORS")) ||
+                    (userGuess.equals("SCISSORS") && computerChoice.equals("ROCK"))) {
                 System.out.println("You Lose!");
             }
 
