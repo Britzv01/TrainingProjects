@@ -83,6 +83,12 @@ public class SlotMachine {
             System.out.print("Play Again? [Yes / No]: ");
             choice = slot.scan.nextLine().toLowerCase();
 
+            if(choice.equals("no")){
+                System.out.println("-------------------------");
+                System.out.println("GAME OVER! Final Balance: $" + slot.balance);
+                break;
+            }
+
             if(slot.balance == 0){
                 System.out.println("-------------------------");
                 System.out.println("Sorry Balance is Insufficent!");
