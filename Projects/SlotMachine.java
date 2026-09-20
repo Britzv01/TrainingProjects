@@ -87,7 +87,7 @@ public class SlotMachine {
                 System.out.println("-------------------------");
                 System.out.println("GAME OVER! Final Balance: $" + slot.balance);
                 break;
-            }
+             }
 
             if(slot.balance == 0){
                 System.out.println("-------------------------");
