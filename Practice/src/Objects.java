@@ -3,8 +3,8 @@ import java.util.Scanner;
 public class Objects {
     public static void main (String [] args){
         Scanner scan = new Scanner(System.in);
-        CarClass car1 = new CarClass();
-        CarClass car2 = new CarClass();
+        Car car1 = new Car();
+        Car car2 = new Car();
 
         car1.isRunning = true;
 
