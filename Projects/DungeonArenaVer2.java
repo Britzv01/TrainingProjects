@@ -1,9 +1,11 @@
+import java.util.Random;
 import java.util.Scanner;
 
 public class DungeonArenaVer2 {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-        Monsters [] enemy = {new Monsters("Goblin", 150, 20), new Monsters("Skeleton", 100, 10), new Monsters("Troll", 200, 50)};
+        Random random = new Random();
+        String [] enemyNames = {"Slime", "Goblin", "Skeleton", "Witch", "Troll"};
 
         System.out.println("Dungeon Arena V2");
         System.out.println("----------------");
@@ -32,10 +34,26 @@ public class DungeonArenaVer2 {
             character.displayStats();
             System.out.println("----------------");
 
-            for (int i = 0; i < enemy.length; i++){
-                System.out.printf("A Wild %s Encountered!%n", enemy[i].type);
-                System.out.printf("Enemy Health: %d%n", enemy[i].health);
-                while (character.health > 0 && enemy[i].health > 0) {
+            while(Monsters.activeMonsters > 0) {
+                System.out.println("Select an Enemy");
+                for (int i = 0; i < enemyNames.length; i++) {
+                    System.out.printf("[%d] - %s%n", (i + 1), enemyNames[i]);
+                }
+                System.out.print(": ");
+                int enemyType = scan.nextInt() - 1;
+                Monsters enemy = new Monsters(enemyType);
+
+                if (enemy.isDefeated) {
+                    System.out.println("------------------");
+                    System.out.println("Enemy is Defeated! Choose Again!");
+                    System.out.println("------------------");
+                    continue;
+                }
+
+                System.out.printf("A Wild %s Encountered!%n", enemy.type);
+                System.out.printf("Enemy Health: %d%n", enemy.health);
+
+                while (character.health > 0 && enemy.health > 0) {
                     System.out.println("----------------");
                     System.out.printf("""
                             Attack the Enemy
@@ -44,7 +62,7 @@ public class DungeonArenaVer2 {
                     System.out.print(": ");
                     int move = scan.nextInt();
 
-                    if ((move != 1) && (move != 2)){
+                    if ((move != 1) && (move != 2)) {
                         System.out.println("Invalid Attack!");
                         continue;
                     }
@@ -53,23 +71,23 @@ public class DungeonArenaVer2 {
                     switch (move) {
                         case 1 -> {
                             System.out.println("You used " + character.attackName1);
-                            character.attack(move, enemy[i]);
+                            character.attack(move, enemy);
                             System.out.println("You dealt " + (int) character.attackDamage);
                         }
                         case 2 -> {
                             System.out.println("You used " + character.attackName2);
-                            character.attack(move, enemy[i]);
+                            character.attack(move, enemy);
                             System.out.println("You dealt " + (int) character.attackDamage);
                         }
                     }
 
-                    if (enemy[i].health > 0) {
-                        System.out.println("Enemy Health: " + enemy[i].health);
+                    if (enemy.health > 0) {
+                        System.out.println("Enemy Health: " + enemy.health);
                         System.out.println("----------------");
 
-                        System.out.println("Enemy used " + enemy[i].attack1Name);
-                        enemy[i].attack1(character);
-                        System.out.println("Enemy dealt " + (int) enemy[i].enemyAttackDamage);
+                        System.out.println("Enemy used " + enemy.attack1Name);
+                        enemy.attack(character);
+                        System.out.println("Enemy dealt " + (int) enemy.enemyAttackDamage);
 
                         if (character.health <= 0) {
                             System.out.println("Health: " + 0);
@@ -81,7 +99,8 @@ public class DungeonArenaVer2 {
 
                     else {
                         System.out.println("----------------");
-                        System.out.println("You successfully defeated the enemy " + enemy[i].type);
+                        System.out.println("You successfully defeated the enemy " + enemy.type);
+
                         System.out.println("----------------");
                     }
 
@@ -179,25 +198,73 @@ class Monsters {
     String type;
     int health;
     double defense;
-    double attackPower = 25;
+    double attackPower;
     static int activeMonsters = 0;
     boolean isDefeated;
     String attack1Name;
     int attack1Power;
     double enemyAttackDamage;
 
-    Monsters(String type, int health, int defense) {
-        this.type = type;
-        this.health = health;
-        this.defense = defense;
-        this.isDefeated = false;
-        this.attack1Name = "Stab";
-        this.attack1Power = 25;
+    Monsters(int enemyChoice) {
+        if (enemyChoice == 0) {
+            this.type = "Slime";
+            this.health = 50;
+            this.defense = 10;
+            this.attackPower = 10;
+            this.isDefeated = false;
+
+            this.attack1Name = "Splash";
+            this.attack1Power = 10;
+        }
+
+        if (enemyChoice == 1) {
+            this.type = "Goblin";
+            this.health = 100;
+            this.defense = 20;
+            this.attackPower = 15;
+            this.isDefeated = false;
+
+            this.attack1Name = "Stab";
+            this.attack1Power = 25;
+        }
+
+        if (enemyChoice == 2) {
+            this.type = "Skeleton";
+            this.health = 70;
+            this.defense = 10;
+            this.attackPower = 30;
+            this.isDefeated = false;
+
+            this.attack1Name = "Piercing Shot";
+            this.attack1Power = 35;
+        }
+
+        if (enemyChoice == 3) {
+            this.type = "Witch";
+            this.health = 100;
+            this.defense = 40;
+            this.attackPower = 40;
+            this.isDefeated = false;
+
+            this.attack1Name = "Burning Hex";
+            this.attack1Power = 45;
+        }
+
+        if (enemyChoice ==  4) {
+            this.type = "Troll";
+            this.health = 150;
+            this.defense = 30;
+            this.attackPower = 50;
+            this.isDefeated = false;
+
+            this.attack1Name = "Stone Hammer";
+            this.attack1Power = 60;
+        }
 
         activeMonsters++;
     }
 
-    void attack1(Characters hero){
+    void attack(Characters hero) {
         enemyAttackDamage = attack1Power * (attackPower / hero.defense);
         hero.health -= (int) enemyAttackDamage;
     }
